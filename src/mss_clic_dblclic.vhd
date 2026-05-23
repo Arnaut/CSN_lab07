@@ -32,7 +32,7 @@ architecture m_etat of mss_clic_dblclic is
     constant PAUSE1 : std_logic_vector(3 downto 0) := "0011";
     constant PAUSE2 : std_logic_vector(3 downto 0) := "0100";
     constant CLC : std_logic_vector(3 downto 0) := "0101";
-    constant APPUI2 : std_logic_vector(3 downto 0) := "0110"
+    constant APPUI2 : std_logic_vector(3 downto 0) := "0110";
     constant MAINTIEN2 : std_logic_vector(3 downto 0) := "0111";
     constant DBL   : std_logic_vector(3 downto 0) := "1000";
 
@@ -103,7 +103,7 @@ begin
                     etat_futur <= APPUI1;
                 end if;
             when others =>
-                etat_futur <= ATTENT;
+                etat_futur <= START;
         end case;
     end process;
 
