@@ -60,8 +60,8 @@ architecture struct of det_clic_dblclic_top is
         port (button_i  : in  std_logic;
             trigger1_i  : in  std_logic;
             trigger2_i  : in  std_logic;
-            clock       : in  std_logic;
-            reset       : in  std_logic;
+            clock_i     : in  std_logic;
+            reset_i     : in  std_logic;
             start_o     : out std_logic;
             clic_o      : out std_logic;
             dbl_clic_o  : out std_logic
@@ -111,8 +111,8 @@ begin
     port map(button_i   => btn_sync_s,
             trigger1_i  => trigger1_s,
             trigger2_i  => trigger2_s,
-            clock       => clock_i,
-            reset       => reset_s,
+            clock_i     => clock_i,
+            reset_i     => reset_s,
             start_o     => start_s,
             clic_o      => clic_s,
             dbl_clic_o  => dbl_clic_s

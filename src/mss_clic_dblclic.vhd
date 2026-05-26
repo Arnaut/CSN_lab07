@@ -18,7 +18,7 @@ use IEEE.Std_Logic_1164.all;
 entity mss_clic_dblclic is
     port (
         button_i, trigger1_i, trigger2_i : in  std_logic;
-        clock, reset    : in  std_logic;
+        clock_i, reset_i    : in  std_logic;
         start_o, clic_o, dbl_clic_o : out std_logic
     );
 end mss_clic_dblclic;
@@ -94,7 +94,7 @@ begin
                 elsif trigger2_i = '0' then
                     etat_futur <= MAINTIEN2;
                 else
-                    etat_futur <= CLC;
+                    etat_futur <= START;
                 end if;
             when DBL =>
                 if button_i = '0' then
@@ -108,11 +108,11 @@ begin
     end process;
 
     -- Processus de mémorisation
-    Mem: process (clock, reset)
+    Mem: process (clock_i, reset_i)
     begin
-        if reset = '1' then
+        if reset_i = '1' then
             etat_present <= START; -- Reset asynchrone prioritaire
-        elsif rising_edge(clock) then
+        elsif rising_edge(clock_i) then
             etat_present <= etat_futur;
         end if;
     end process;
