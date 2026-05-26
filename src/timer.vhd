@@ -46,9 +46,9 @@ begin
   max_s <= cpt_pres_p1_s(9);
 
   -- decodeur etats futur
-  cpt_fut_s <=    (others =>'0')             when start_i = '1' else              -- set
-                  cpt_pres_s                 when max_s = '1' else                -- Hold
-                  cpt_pres_p1_s(9 downto 0);                                      -- Increment
+  cpt_fut_s <=    (others =>'0')             when start_i = '1' else                                -- set
+                  cpt_pres_p1_s(9 downto 0)  when ((max_s = '0') and (top_ms_i = '1')) else             -- Increment
+                  cpt_pres_s;                                                                      -- Hold
 
   -- Registre
   process(clock_i, reset_i)

@@ -68,8 +68,6 @@ architecture struct of det_clic_dblclic_top is
             );
     end component;
     for all : mss_clic_dblclic use entity work.mss_clic_dblclic;
-   
-   
 
     component maintien
         generic (T_HOLD : natural range 1 to 1023 := 2);
@@ -99,7 +97,7 @@ begin
 
     --intenciation du timer
 	l_timer1 : timer 
-	generic map(T1_g => T1_g)
+	generic map(T1_g => T1_g, T2_g => T2_g)
 	port map(clock_i   => clock_i,
             reset_i    => reset_s,
             start_i    => start_s,
