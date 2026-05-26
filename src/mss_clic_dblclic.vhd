@@ -26,22 +26,29 @@ end mss_clic_dblclic;
 architecture m_etat of mss_clic_dblclic is
     signal etat_present, etat_futur : std_logic_vector(3 downto 0);
 
-    constant START : std_logic_vector(3 downto 0) := "0000";
-    constant APPUI1 : std_logic_vector(3 downto 0) := "0001";
-    constant MAINTIEN1 : std_logic_vector(3 downto 0) := "0010";
-    constant PAUSE1 : std_logic_vector(3 downto 0) := "0011";
-    constant PAUSE2 : std_logic_vector(3 downto 0) := "0100";
-    constant CLC : std_logic_vector(3 downto 0) := "0101";
-    constant APPUI2 : std_logic_vector(3 downto 0) := "0110";
-    constant MAINTIEN2 : std_logic_vector(3 downto 0) := "0111";
-    constant DBL   : std_logic_vector(3 downto 0) := "1000";
+    constant INIT       : std_logic_vector(3 downto 0) := "0000";
+    constant START      : std_logic_vector(3 downto 0) := "0001";
+    constant APPUI1     : std_logic_vector(3 downto 0) := "0010";
+    constant MAINTIEN1  : std_logic_vector(3 downto 0) := "0011";
+    constant PAUSE1     : std_logic_vector(3 downto 0) := "0100";
+    constant PAUSE2     : std_logic_vector(3 downto 0) := "0101";
+    constant CLC        : std_logic_vector(3 downto 0) := "0110";
+    constant APPUI2     : std_logic_vector(3 downto 0) := "0111";
+    constant MAINTIEN2  : std_logic_vector(3 downto 0) := "1000";
+    constant DBL        : std_logic_vector(3 downto 0) := "1001";
 
 begin
     -- Processus combinatoire : calcul de l'état futur
     Fut: process (button_i, trigger2_i, trigger1_i, etat_present)
     begin
-        etat_futur <= START; -- Valeur par défaut pour éviter les latches
+        etat_futur <= INIT; -- Valeur par défaut pour éviter les latches
         case etat_present is
+            when INIT => 
+                if button_i = '1' then
+                    etat_futur <= INIT;
+                else
+                    etat_futur <= START;
+                end if;
             when START =>
                 if button_i = '0' then
                     etat_futur <= START;
@@ -60,7 +67,7 @@ begin
                 elsif trigger1_i = '0' then
                     etat_futur <= MAINTIEN1;
                 else
-                    etat_futur <= START;
+                    etat_futur <= INIT;
                 end if;
             when PAUSE1 =>
                 if button_i = '0' then
@@ -94,7 +101,7 @@ begin
                 elsif trigger1_i = '0' then
                     etat_futur <= MAINTIEN2;
                 else
-                    etat_futur <= START;
+                    etat_futur <= INIT;
                 end if;
             when DBL =>
                 if button_i = '0' then
@@ -103,7 +110,7 @@ begin
                     etat_futur <= APPUI1;
                 end if;
             when others =>
-                etat_futur <= START;
+                etat_futur <= INIT;
         end case;
     end process;
 

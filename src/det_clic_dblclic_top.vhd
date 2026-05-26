@@ -10,9 +10,9 @@
 -- 
 -- Utilise      : Labo SysLog2 2016
 --| Modifications |------------------------------------------------------------
--- Ver   Date        Qui         Description
--- 1.0   20.11.2020  EMI   Ajout generique pour timer et maintien
--- 
+-- Ver   Date        Qui            Description
+-- 1.0   20.11.2020  EMI            Ajout generique pour timer et maintien
+-- 2.0	 25.05.26    Nadia; Arnaut  Implementation du clic_dblclic_top
 -------------------------------------------------------------------------------
 
 library ieee;
@@ -86,7 +86,7 @@ begin
 
     reset_s <= not (nReset_i);
 
-    --process D_flip_flop pour btn_sync_s
+    --process D_flip_flop pour btn_sync_s (car button entre de MSS)
     process(reset_s, clock_i)
     begin
         if reset_s = '1' then
@@ -139,7 +139,7 @@ begin
               p_hold_o   => dbl_clic_lg_s
               );
     
-    --gestion sortie restante
+    --gestion sortie
     clic_o        <= clic_s;
     dbl_clic_o    <= dbl_clic_s;
     clic_lg_o     <= clic_lg_s;
