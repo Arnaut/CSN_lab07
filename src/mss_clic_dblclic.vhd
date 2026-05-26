@@ -17,7 +17,7 @@ use IEEE.Std_Logic_1164.all;
 
 entity mss_clic_dblclic is
     port (
-        button_i, trigger1_i, trigger2_i : in  std_logic;
+        button_i, trigger2_i, trigger1_i : in  std_logic;
         clock_i, reset_i    : in  std_logic;
         start_o, clic_o, dbl_clic_o : out std_logic
     );
@@ -38,7 +38,7 @@ architecture m_etat of mss_clic_dblclic is
 
 begin
     -- Processus combinatoire : calcul de l'état futur
-    Fut: process (button_i, trigger1_i, trigger2_i, etat_present)
+    Fut: process (button_i, trigger2_i, trigger1_i, etat_present)
     begin
         etat_futur <= START; -- Valeur par défaut pour éviter les latches
         case etat_present is
@@ -57,7 +57,7 @@ begin
             when MAINTIEN1 =>
                 if button_i = '0' then
                     etat_futur <= PAUSE1;
-                elsif trigger2_i = '0' then
+                elsif trigger1_i = '0' then
                     etat_futur <= MAINTIEN1;
                 else
                     etat_futur <= START;
@@ -71,7 +71,7 @@ begin
             when PAUSE2 =>
                 if button_i = '1' then
                     etat_futur <= APPUI2;
-                elsif trigger1_i = '1' then
+                elsif trigger2_i = '1' then
                     etat_futur <= CLC;
                 else
                     etat_futur <= PAUSE2;
@@ -91,7 +91,7 @@ begin
             when MAINTIEN2 =>
                 if button_i = '0' then
                     etat_futur <= DBL;
-                elsif trigger2_i = '0' then
+                elsif trigger1_i = '0' then
                     etat_futur <= MAINTIEN2;
                 else
                     etat_futur <= START;
