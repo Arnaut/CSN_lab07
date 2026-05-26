@@ -41,6 +41,7 @@ architecture struct of det_clic_dblclic_top is
     signal reset_s                          : std_logic;
     signal start_s, trigger1_s, trigger2_s  : std_logic;
     signal btn_sync_s, clic_s, dbl_clic_s   : std_logic;
+    signal clic_lg_s, dbl_clic_lg_s         : std_logic;
   
    -- Component declarations
     component timer
@@ -125,7 +126,7 @@ begin
               reset_i    => reset_s,
               pulse_i    => clic_s,
               top_ms_i   => top_ms_i,
-              p_hold_o   => clic_lg_o
+              p_hold_o   => clic_lg_s
               );
     
     --intenciation maintien dbl_clic
@@ -135,10 +136,12 @@ begin
               reset_i    => reset_s,
               pulse_i    => dbl_clic_s,
               top_ms_i   => top_ms_i,
-              p_hold_o   => dbl_clic_lg_o
+              p_hold_o   => dbl_clic_lg_s
               );
     
     --gestion sortie restante
     clic_o        <= clic_s;
     dbl_clic_o    <= dbl_clic_s;
+    clic_lg_o     <= clic_lg_s;
+    dbl_clic_lg_o <= dbl_clic_lg_s;
 end struct;

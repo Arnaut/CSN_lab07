@@ -22,8 +22,8 @@ use ieee.numeric_std.all;
 
 entity timer is
     generic (
-        T1_g : natural range 1 to 1023 := 2;
-        T2_g : natural range 1 to 1023 := 3 );
+        T1_g : natural range 1 to 1023 := 300;
+        T2_g : natural range 1 to 1023 := 200);
     port (
         clock_i    : in  std_logic;
         reset_i    : in  std_logic;
@@ -43,11 +43,11 @@ architecture comport of timer is
 begin
   -- adder
   cpt_pres_p1_s <= ('0' & cpt_pres_s) + 1;
-  max_s <= cpt_pres_p1_s(9);
+  max_s <= cpt_pres_p1_s(10);
 
   -- decodeur etats futur
-  cpt_fut_s <=    (others =>'0')             when start_i = '1' else                                -- set
-                  cpt_pres_p1_s(9 downto 0)  when ((max_s = '0') and (top_ms_i = '1')) else             -- Increment
+  cpt_fut_s <=    (others =>'0')             when start_i = '1' else                               -- set
+                  cpt_pres_p1_s(9 downto 0)  when ((max_s = '0') and (top_ms_i = '1')) else        -- Increment
                   cpt_pres_s;                                                                      -- Hold
 
   -- Registre
@@ -61,9 +61,9 @@ begin
   end process;
 
   -- decodeur sortie
-  trigger1_o <= '0' when cpt_pres_s < T1_g else
-                '1';
-  trigger2_o <= '0' when cpt_pres_s < T2_g else
-                '1';
+  trigger1_o <= '1' when cpt_pres_s > T1_g else
+                '0';
+  trigger2_o <= '1' when cpt_pres_s > T2_g else
+                '0';
 
 end comport;
